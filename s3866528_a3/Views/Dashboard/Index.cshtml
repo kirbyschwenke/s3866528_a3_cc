@@ -1,0 +1,27 @@
+﻿@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Your Saved Recipes</h2>
+
+<div class="container recipe-preview">
+    <div class="row">
+        @foreach (var recipe in Model.SavedRecipes)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@recipe.ThumbnailUrl" class="card-img-top" alt="@recipe.Name">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@recipe.Name</h5>
+                        <p class="card-text">@recipe.Description</p>
+                        <div class="mt-auto">
+                            <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn branded-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

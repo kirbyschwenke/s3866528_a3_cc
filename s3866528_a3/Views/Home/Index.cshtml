@@ -1,0 +1,41 @@
+﻿@model List<Recipe>;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="hero-container vh-90 container-fluid">
+    <div class="hero-overlay">
+        <img class="hero-logo" src="~/img/logo.png" />
+
+    <div class="overlay-text">
+        @if (string.IsNullOrEmpty(Context.Session.GetString("UserName")))
+        {
+            <a class="btn btn-primary hero-button" asp-controller="Home" asp-action="Login">Login</a>
+            <a class="btn btn-secondary hero-button" asp-controller="Home" asp-action="Register">Register</a>
+        }
+        else
+        {
+            <a class="btn btn-success hero-button" asp-controller="Recipes" asp-action="Explore">Explore Recipes</a>
+        }
+    </div>
+    </div>
+</div>
+
+<div class="container recipe-preview">
+    <div class="row">
+        @foreach (var recipe in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@recipe.ThumbnailUrl" class="card-img-top" alt="@recipe.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.Name</h5>
+                        <p class="card-text">@recipe.Description</p>
+                        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn branded-button">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

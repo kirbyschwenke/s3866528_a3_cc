@@ -1,0 +1,89 @@
+﻿@model s3866528_a3.Models.Login
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div>
+    <h1 class="display-4">Profile</h1>
+
+    <form asp-controller="Profile" asp-action="EditUser" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-md-4" method="post">
+        <div class="bg-highlight p-4 rounded flex-grow-1 mt-4 mt-md-0">
+            <input type="hidden" asp-for="Password" value="@Model.Password" />
+            <table class="table">
+                <tr>
+                    <td><b>@Html.DisplayNameFor(Model => Model.Email): </b></td>
+                    <td>
+                        <div class="form-group">
+                            <input asp-for="Email" type="text" readonly class="form-control-plaintext" value="@Model.Email" />
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><b>@Html.DisplayNameFor(Model => Model.Name): </b></td>
+                    <td>
+                        <div class="form-group">
+                            <input id="Name" asp-for="Name" value="@Model.Name" class="form-control" data-val="true" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Profile Image:</b></td>
+                    <td>
+<div class="form-group">
+    @{
+                                var lambdaFunctionUrl = "https://2ulynnjhyc6w56siudaovwxqza0rpnzt.lambda-url.us-east-1.on.aws/";
+                                var imageUrl = await GetPreSignedUrl(lambdaFunctionUrl, Model.Email);
+                                <img src="@imageUrl" alt="Profile Image" width="100" />
+        <br />
+    }
+    <input asp-for="ProfileImage" type="file" name="ProfileImage" />
+</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Preferences:</b></td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="Preferences" name="Preferences" multiple>
+                                <option value="beef" selected="@(Model.Preferences?.Contains("beef") ?? false)">Beef</option>
+                                <option value="pork" selected="@(Model.Preferences?.Contains("pork") ?? false)">Pork</option>
+                                <option value="chicken" selected="@(Model.Preferences?.Contains("chicken") ?? false)">Chicken</option>
+                                <option value="lamb" selected="@(Model.Preferences?.Contains("lamb") ?? false)">Lamb</option>
+                                <option value="vegetarian" selected="@(Model.Preferences?.Contains("vegetarian") ?? false)">Vegetarian</option>
+                                <option value="snacks" selected="@(Model.Preferences?.Contains("snacks") ?? false)">Snacks</option>
+                                <option value="none" selected="@(Model.Preferences?.Contains("none") ?? false)">None</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="d-flex justify-content-between flex-row-reverse">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+    @functions {
+        private async Task<string> GetPreSignedUrl(string lambdaFunctionUrl, string userEmail)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{lambdaFunctionUrl}?userEmail={userEmail}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<dynamic>(json);
+                    return data.url;
+                }
+
+                return null;
+            }
+        }
+    }

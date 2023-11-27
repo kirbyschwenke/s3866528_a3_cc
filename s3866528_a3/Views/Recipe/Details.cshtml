@@ -1,0 +1,65 @@
+﻿@model Recipe
+
+<div class="container" style="height:fit-content;">
+    <h2>
+        @Model.Name
+        <button class="save-button" title="Save Recipe" onclick="saveRecipe(@Model.Id)">
+            <i class="fa fa-star"></i> Save
+        </button>
+    </h2>
+    <img src="@Model.ThumbnailUrl" alt="@Model.Name" class="thumbnail" style="width:50%; margin:auto;"/>
+
+    <h3>Number of Servings: @Model.NumServings</h3>
+
+    <h3>Ingredients</h3>
+    <ul class="ingredients">
+        @foreach (var item in Model.Ingredients)
+        {
+            @foreach (var component in item.Components)
+            {
+                <li>@component.RawText</li>
+            }
+        }
+    </ul>
+
+    <h3>Instructions</h3>
+    <ol class="instructions">
+        @foreach (var instruction in Model.Instructions)
+        {
+            <li>@instruction.DisplayText</li>
+        }
+    </ol>
+
+    <h3>Nutrition Information</h3>
+    <ul class="nutrition">
+        <li>Protein: @Model.Nutrition.Protein</li>
+        <li>Fat: @Model.Nutrition.Fat</li>
+        <li>Calories: @Model.Nutrition.Calories</li>
+        <li>Sugar: @Model.Nutrition.Sugar</li>
+        <li>Carbohydrates: @Model.Nutrition.Carbohydrates</li>
+        <li>Fiber: @Model.Nutrition.Fiber</li>
+    </ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    function saveRecipe(recipeId) {
+        $.ajax({
+            url: '@Url.Action("SaveRecipe", "Recipe")',
+            type: 'POST',
+            data: { recipeId: recipeId },
+            success: function (result) {
+                if (result.success) {
+                    alert('Recipe saved successfully!');
+                } else {
+                    alert('Failed to save recipe. ' + result.message);
+                }
+            },
+            error: function () {
+                alert('An error occurred while saving the recipe.');
+            }
+        });
+    }
+</script>
+

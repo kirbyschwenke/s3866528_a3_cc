@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Rowdies&display=swap');
+
+@font-face {
+    font-family: Dosis;
+    src: url(../lib/Dosis-VariableFont_wght.ttf);
+}
+
+html {
+  font-size: 14px;
+}
+
+.navbar-brand {
+    font-family: 'Dosis', sans-serif;
+    display:inline-block;
+}
+
+.navbar-brand > p {
+        display: inline-block;
+        color: #28696D;
+}
+
+.loginlogout, .hero-button, .branded-button {
+    background-color: #FF7C04;
+    padding: 10px 30px;
+    border:none;
+    color:white;
+}
+
+.nav-item {
+    padding: 10px 20px;
+}
+
+.nav-item:hover,.nav-item:active {
+    color: #FF7C04;
+    text-decoration:underline;
+}
+
+h1 {
+    color: #28696D;
+}
+
+.hero-container {
+    height: 80vh;
+    width:100%;
+    background-image: url("../img/hero.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position-y:center;
+    background-position-x:center;
+}
+
+.hero-overlay {
+    position: relative;
+    top:15%;
+    left: 60%;
+    background-color: white;
+    width:40%;
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.hero-logo {
+    height:30vh;
+}
+
+.hero-button {
+    margin: 20px;
+}
+
+.recipe-preview {
+    height:fit-content;
+    padding:20px;
+    margin:auto;
+    margin-bottom:20px;
+}
+
+.save-button {
+    background-color: #FF7C04;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+@media (min-width: 768px) {
+    html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
